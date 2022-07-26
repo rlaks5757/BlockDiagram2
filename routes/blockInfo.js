@@ -5,8 +5,6 @@ const router = express.Router();
 
 const oracle = require("../oracle");
 
-console.log(oracle);
-
 router.route("/:id").get(async (req, res) => {
   try {
     const comAxios = await axios.post(
@@ -39,18 +37,15 @@ router.route("/delete/:id").post(async (req, res) => {
   try {
     try {
       const comAxios = await axios.put(
-        `${oracle.url}/${req.params.id}`,
+        `https://unifier.dtsolution.kr/ws/rest/service/v1/bp/record/${req.params.id}`,
         {
           options: {
             bpname: "Commissioning Activities",
-
             LineItemIdentifier: "dtsLineAutoSeq",
           },
-
           data: [
             {
               _delete_bp_lineitems: req.body._bp_lineitems,
-
               record_no: req.body.record_no,
             },
           ],
@@ -62,18 +57,21 @@ router.route("/delete/:id").post(async (req, res) => {
 
       // const topAxios = await axios.post(
       //   `https://unifier.dtsolution.kr/ws/rest/service/v1/bp/records/${req.params.id}`,
-      //   topBody,
+      //   comBody,
       //   {
-      //     headers: headerKey,
+      //     headers: {
+      //       Authorization:
+      //         "Bearer eyJ0eXAiOiJEQiJ9.eyJ1c2VybmFtZSI6IiQkcDYifQ==.592E63E4-05BF-7B12-7D05-0A2B031A0EEF091C12AAE846910A7624C1F6FE485D19",
+      //     },
       //   }
       // );
+      console.log(comAxios.data.data);
 
-      console.log(comAxios);
       await res.status(201).json({
         success: true,
-        data: deleteComBody,
       });
     } catch (err) {
+      console.log(err);
       res.status(400).json({ success: false, data: err });
     }
   } catch (err) {
@@ -84,19 +82,20 @@ router.route("/delete/:id").post(async (req, res) => {
 router.route("/fixed/:id").post(async (req, res) => {
   try {
     const comAxios = await axios.put(
-      `${oracle.url}/${req.params.id}`,
+      `https://unifier.dtsolution.kr/ws/rest/service/v1/bp/record/${req.params.id}`,
       {
         options: {
-          bpname: "Commissioning Activities",
+          bpname: req.body.bpName,
           LineItemIdentifier: "dtsLineAutoSeq",
         },
-        data: req.body,
+        data: [req.body.data],
       },
-
       {
         headers: oracle.headers,
       }
     );
+    console.log(req.body);
+    console.log(comAxios.data);
 
     // const topAxios = await axios.post(
     //   `https://unifier.dtsolution.kr/ws/rest/service/v1/bp/records/${req.params.id}`,
@@ -108,7 +107,45 @@ router.route("/fixed/:id").post(async (req, res) => {
 
     await res.status(201).json({
       success: true,
-      data: comAxios,
+      com: comAxios.data.data,
+    });
+  } catch (err) {
+    res.status(400).json({ success: false, data: err });
+  }
+});
+
+router.route("/new/:id").post(async (req, res) => {
+  try {
+    const comAxios = await axios.post(
+      `https://unifier.dtsolution.kr/ws/rest/service/v1/bp/record/${req.params.id}`,
+      {
+        options: {
+          bpname: req.body.bpName,
+          LineItemIdentifier: "dtsLineAutoSeq",
+        },
+        data: [req.body.data],
+      },
+      {
+        headers: oracle.headers,
+      }
+    );
+
+    console.log(req.body);
+    console.log(comAxios);
+
+    // console.log(comAxios.data);
+
+    // const topAxios = await axios.post(
+    //   `https://unifier.dtsolution.kr/ws/rest/service/v1/bp/records/${req.params.id}`,
+    //   topBody,
+    //   {
+    //     headers: headerKey,
+    //   }
+    // );
+
+    await res.status(201).json({
+      success: true,
+      com: comAxios.data.data,
     });
   } catch (err) {
     res.status(400).json({ success: false, data: err });
@@ -132,12 +169,12 @@ const comBody = {
 };
 
 const topBody = {
-  bpname: "Top Activities",
+  bpname: "Turnover Packages",
   filter_criteria: {
     join: "AND",
     filter: [
       {
-        field: "uuu_P6ActivityId",
+        field: "dtsTOPCode",
         value: null,
         condition_type: "neq",
       },

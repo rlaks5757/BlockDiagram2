@@ -55,16 +55,6 @@ router.route("/delete/:id").post(async (req, res) => {
         }
       );
 
-      // const topAxios = await axios.post(
-      //   `https://unifier.dtsolution.kr/ws/rest/service/v1/bp/records/${req.params.id}`,
-      //   comBody,
-      //   {
-      //     headers: {
-      //       Authorization:
-      //         "Bearer eyJ0eXAiOiJEQiJ9.eyJ1c2VybmFtZSI6IiQkcDYifQ==.592E63E4-05BF-7B12-7D05-0A2B031A0EEF091C12AAE846910A7624C1F6FE485D19",
-      //     },
-      //   }
-      // );
       console.log(comAxios.data.data);
 
       await res.status(201).json({

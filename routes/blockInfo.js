@@ -40,7 +40,7 @@ router.route("/delete/:id").post(async (req, res) => {
         `https://unifier.dtsolution.kr/ws/rest/service/v1/bp/record/${req.params.id}`,
         {
           options: {
-            bpname: "Commissioning Activities",
+            bpname: req.body.bpName,
             LineItemIdentifier: "dtsLineAutoSeq",
           },
           data: [

@@ -59,6 +59,7 @@ router.route("/delete/:id").post(async (req, res) => {
 
       await res.status(201).json({
         success: true,
+        data: comAxios.data,
       });
     } catch (err) {
       console.log(err);
@@ -84,7 +85,7 @@ router.route("/fixed/:id").post(async (req, res) => {
         headers: oracle.headers,
       }
     );
-    console.log(req.body);
+
     console.log(comAxios.data);
 
     // const topAxios = await axios.post(
@@ -97,7 +98,7 @@ router.route("/fixed/:id").post(async (req, res) => {
 
     await res.status(201).json({
       success: true,
-      com: comAxios.data.data,
+      data: comAxios.data,
     });
   } catch (err) {
     res.status(400).json({ success: false, data: err });
@@ -135,7 +136,7 @@ router.route("/new/:id").post(async (req, res) => {
 
     await res.status(201).json({
       success: true,
-      com: comAxios.data.data,
+      data: comAxios.data,
     });
   } catch (err) {
     res.status(400).json({ success: false, data: err });

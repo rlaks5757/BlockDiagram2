@@ -37,7 +37,7 @@ router.route("/delete/:id").post(async (req, res) => {
   try {
     try {
       const comAxios = await axios.put(
-        `https://unifier.dtsolution.kr/ws/rest/service/v1/bp/record/${req.params.id}`,
+        `${oracle.url2}/${req.params.id}`,
         {
           options: {
             bpname: req.body.bpName,
@@ -73,7 +73,7 @@ router.route("/delete/:id").post(async (req, res) => {
 router.route("/fixed/:id").post(async (req, res) => {
   try {
     const comAxios = await axios.put(
-      `https://unifier.dtsolution.kr/ws/rest/service/v1/bp/record/${req.params.id}`,
+      `${oracle.url2}/${req.params.id}`,
       {
         options: {
           bpname: req.body.bpName,
@@ -88,14 +88,6 @@ router.route("/fixed/:id").post(async (req, res) => {
 
     console.log(comAxios.data);
 
-    // const topAxios = await axios.post(
-    //   `https://unifier.dtsolution.kr/ws/rest/service/v1/bp/records/${req.params.id}`,
-    //   topBody,
-    //   {
-    //     headers: headerKey,
-    //   }
-    // );
-
     await res.status(201).json({
       success: true,
       data: comAxios.data,
@@ -108,7 +100,7 @@ router.route("/fixed/:id").post(async (req, res) => {
 router.route("/new/:id").post(async (req, res) => {
   try {
     const comAxios = await axios.post(
-      `https://unifier.dtsolution.kr/ws/rest/service/v1/bp/record/${req.params.id}`,
+      `${oracle.url2}/${req.params.id}`,
       {
         options: {
           bpname: req.body.bpName,
@@ -123,16 +115,6 @@ router.route("/new/:id").post(async (req, res) => {
 
     console.log(req.body);
     console.log(comAxios);
-
-    // console.log(comAxios.data);
-
-    // const topAxios = await axios.post(
-    //   `https://unifier.dtsolution.kr/ws/rest/service/v1/bp/records/${req.params.id}`,
-    //   topBody,
-    //   {
-    //     headers: headerKey,
-    //   }
-    // );
 
     await res.status(201).json({
       success: true,
